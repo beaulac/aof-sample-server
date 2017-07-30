@@ -4,7 +4,7 @@ const host = process.env.HOST || '0.0.0.0'
 
 require('cors-anywhere')
     .createServer({
-                      originWhitelist: ['http://localhost:4200', 'http:/bdtem.co.in'],
+                      originWhitelist: ['http://localhost:4200', 'http://bdtem.co.in'],
                       requireHeader: ['origin', 'x-requested-with'],
                       removeHeaders: ['cookie', 'cookie2']
                   })
