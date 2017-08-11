@@ -1,8 +1,20 @@
 'use strict';
 const express = require('express');
+const cors = require('cors');
 const sampleFetcher = require('./sample.fetcher');
 
 const app = express();
+
+const whitelist = ['http://bdtem.co.in', 'http://localhost:4200'];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        return whitelist.includes(origin) ? callback(null, true) : callback(Error('Not allowed'))
+    }
+};
+
+app.use(cors(corsOptions));
+
 
 app.get('/samples', (req, res, next) => {
     return sampleFetcher.getSampleFiles()
