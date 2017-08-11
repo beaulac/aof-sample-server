@@ -1,11 +1,28 @@
 'use strict';
-const host = process.env.HOST || '0.0.0.0'
-    , port = process.env.PORT || 8080;
+const express = require('express');
+const sampleFetcher = require('./sample.fetcher');
 
-require('cors-anywhere')
-    .createServer({
-                      originWhitelist: ['http://localhost:4200', 'http://bdtem.co.in'],
-                      requireHeader: ['origin', 'x-requested-with'],
-                      removeHeaders: ['cookie', 'cookie2']
-                  })
-    .listen(port, host, () => console.log(`Running CORS Anywhere on ${host}:${port}`));
+const app = express();
+
+app.get('/samples', (req, res, next) => {
+    return sampleFetcher.getSampleFiles()
+                        .then(samples => {
+                            console.log(`From cache: ${samples.length}`);
+                            return res.json(samples);
+                        })
+                        .catch(next);
+});
+
+app.get('/refresh', (req, res, next) => {
+    return sampleFetcher.refresh()
+                        .then(samples => {
+                            console.log(`Refreshed: ${samples.length} samples.`);
+                            return res.json(samples);
+                        })
+                        .catch(next);
+
+});
+
+const samplesPort = process.env.PORT || 8888;
+const host = process.env.HOST || '0.0.0.0';
+app.listen(samplesPort, () => console.log(`Running samples cache on ${host}:${samplesPort}`));
