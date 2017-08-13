@@ -4,7 +4,7 @@ const request = require('request');
 const driveFilesEndpoint = 'https://content.googleapis.com/drive/v3/files';
 
 const apiKey = 'AIzaSyB34kcbBYm9f0lpjwdm1_RDubFRZPwi0pA';
-const folderId = '0B721XY-cG39ueUNMVmZlWnpJeGc';
+const folderId = '0B721XY-cG39uX3M3eFk3Y0dKRms';
 
 // Super naive memory cache.
 const sampleFiles = [];
