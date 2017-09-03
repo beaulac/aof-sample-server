@@ -1,10 +1,12 @@
 'use strict';
+const originWhitelist = require('./origin.whitelist');
+
 const host = process.env.HOST || '0.0.0.0'
-    , port = process.env.PORT || 8080;
+    , port = process.env.CORS_SERVER_PORT || 8080;
 
 require('cors-anywhere')
     .createServer({
-                      originWhitelist: ['http://localhost:4200', 'http://bdtem.co.in'],
+                      originWhitelist,
                       requireHeader: ['origin', 'x-requested-with'],
                       removeHeaders: ['cookie', 'cookie2']
                   })
