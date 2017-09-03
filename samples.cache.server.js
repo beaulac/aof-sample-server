@@ -9,6 +9,9 @@ const whitelist = require('./origin.whitelist');
 
 const corsOptions = {
     origin: function (origin, callback) {
+        if (origin === undefined) {
+            return callback(null, true);
+        }
         return whitelist.includes(origin) ? callback(null, true) : callback(Error('Not allowed'));
     }
 };
