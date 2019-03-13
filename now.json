@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "alias": "aof-rec",
   "builds": [
     {
       "src": "index.js",

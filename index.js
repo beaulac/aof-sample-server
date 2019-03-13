@@ -41,11 +41,22 @@ function getSampleFiles(nextPageToken) {
         });
 }
 
+const allowedOrigins = [
+    /^https?:\/\/localhost:?[\d]*$/,
+    /^https?:.*bdtem\.co(m|\.in)$/
+];
+
 module.exports = async (req, res) => {
     try {
+        const reqOrigin = req.getHeader('origin');
+        if (allowedOrigins.some(ao => ao.test(reqOrigin))) {
+            res.setHeader('Access-Control-Allow-Origin', reqOrigin);
+        }
+
         const samples = await getSampleFiles();
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
+
         res.end(JSON.stringify(samples));
     } catch (err) {
         res.statusCode = 503;
