@@ -43,12 +43,14 @@ function getSampleFiles(nextPageToken) {
 
 const allowedOrigins = [
     /^https?:\/\/localhost:?[\d]*$/,
-    /^https?:.*bdtem\.co(m|\.in)$/
+    /^https?:.*bdtem\.co(m|\.in)$/,
+    // todo remove:
+    /^https:\/\/.+\.netlify\.com$/
 ];
 
 module.exports = async (req, res) => {
     try {
-        const reqOrigin = req.getHeader('origin');
+        const reqOrigin = req.headers['origin'];
         if (allowedOrigins.some(ao => ao.test(reqOrigin))) {
             res.setHeader('Access-Control-Allow-Origin', reqOrigin);
         }
@@ -59,6 +61,7 @@ module.exports = async (req, res) => {
 
         res.end(JSON.stringify(samples));
     } catch (err) {
+        console.error(err);
         res.statusCode = 503;
         res.end();
     }
